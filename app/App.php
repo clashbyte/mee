@@ -1,13 +1,13 @@
 <?php
 
 /*
- * Copyright 2015 Likedar.ru.
+ * Copyright 2015 Mikhail Popov.
  *
- * This is a part of Mee engine. This code is provided as-is,
- * but you are not able to use it outside the Mee engine.
+ * This is a part of Mee framework. This code is provided as-is,
+ * but you are not able to use it outside the framework.
  *
- * Этот код является частью Mee engine, распространяется как есть,
- * но Вы не можете использовать его вне движка.
+ * Этот код является частью Mee framework, распространяется как есть,
+ * но Вы не можете использовать его вне фреймворка.
  */
 
 namespace Mee;
