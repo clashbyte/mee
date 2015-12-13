@@ -41,7 +41,7 @@ class Template {
 	 * @param array $vars Associative arrays with variables<br>Ассоциативный массив со значениями переменных
 	 * @return string Executed template<br>Выполненый шаблон
 	 */
-	public static function Get($name, $vars) {
+	public static function Get($name, $vars = array()) {
 		
 		// Get cached bytecode
 		// Получение байткода
@@ -49,7 +49,7 @@ class Template {
 		
 		// Evaluate it
 		// Выполнение
-		return self::Execute($bcode);
+		return self::Execute($bcode, $vars);
 	}
 
 	/**
@@ -94,8 +94,9 @@ class Template {
 	 * Исполнение корневой инструкции
 	 * 
 	 * @param array $bytecode Bytecode<br>Байткод
+	 * @param array $vars Variables<br>Переменные
 	 */
-	static function Execute($bytecode) {
+	static function Execute($bytecode, $vars) {
 		
 		// Preprocess template
 		// Препроцессинг кода
@@ -150,7 +151,7 @@ class Template {
 			}
 		}
 		
-		return Evaluator::Run($bytecode);
+		return Evaluator::Run($bytecode, $vars);
 		
 	}
 	

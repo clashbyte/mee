@@ -9,7 +9,7 @@
  * Этот код является частью Mee framework, распространяется как есть,
  * но Вы не можете использовать его вне фреймворка.
  */
-
+header("Content-Type: text/plain");
 use \Mee\Router;
 use \Mee\Template;
 

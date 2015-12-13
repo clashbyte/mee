@@ -4,7 +4,7 @@ First part
 	
 [[ section "new" ]]
 
-	replaced
+	[[ 1 + "two" ]]
 
 [[ end ]]
 	
