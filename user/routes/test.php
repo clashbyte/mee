@@ -15,6 +15,6 @@ use \Mee\Template;
 
 Router::Get("/", function (){
 	
-	return Template::Get("admin.test", array());
+	return Template::Get("admin.test", array("testvar" => "testin output"));
 	
 });

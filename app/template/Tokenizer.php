@@ -183,7 +183,7 @@ class Tokenizer {
 					$name = $s;
 					for ($i = $p+1; $i < strlen($code); $i++) {
 						$s = $code[$i];
-						if (preg_match("/[a-zA-Z\$_]/",$s)) {
+						if (preg_match("/[a-zA-Z0-9\$_]/",$s)) {
 							$name.=$s;
 						}else{
 							break;

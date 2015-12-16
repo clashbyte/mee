@@ -41,8 +41,24 @@ class Evaluator {
 					break;
 				
 				case Instruction::T_MIXEDOUT:
+					// Writing expression to output
+					// Вывод математического выражения
 					$out .= (string)self::EvalMath($b->content, $vars);
 					break;
+				
+				case Instruction::T_ASSIGN:
+					// Variable assign
+					// Присвоение переменной
+					
+					break;
+				
+				case Instruction::T_IF:
+					// IF - subtree
+					// Дерево IF
+					
+					
+					break;
+					
 
 				default:
 					$out.="[".$b->GetType()."]<br>";
@@ -55,9 +71,14 @@ class Evaluator {
 		return $out;
 	}
 	
-	
-	
-	
+	/**
+	 * Evaluate math from compiled tree<br>
+	 * Вычисление выражения из скомпилированной математической ветки
+	 * 
+	 * @param Mee\Internal\MathBranch $tree Single MathBranch object<br>Объект типа MathBranch
+	 * @param array $vars Associative array with variables<br>Ассоциативный массив со значениями переменных
+	 * @return mixed Math result<br>Результат вычислений
+	 */
 	static function EvalMath($tree, $vars) {
 		
 		// Copy instructions
@@ -203,8 +224,6 @@ class Evaluator {
 						$op->content = new Token(is_string($val)?Token::T_STRING:Token::T_NUMBER, $val, 0);
 						
 						$math = array_filter(array_merge(array_slice($math, 0, $p-1), array($op), array_slice($math, $p+2)));
-						
-						
 						$found = true;
 						break;
 						
@@ -231,7 +250,60 @@ class Evaluator {
 	 * @return mixed Variable value<br>Значение переменной
 	 */
 	static function GetVariable($var, $vars) {
-		return 0;
+		$out = false;
+		if (array_key_exists($var->content[0]->content, $vars)) {
+			$out = $vars[$var->content[0]->content];
+			$p = 1;
+			
+			while ($p<count($var->content)){
+				$dot = $var->content[$p]->type == Token::T_PERIOD;
+				
+				$p++;
+				$vname = $var->content[$p]->content;
+				if ($dot) {
+					$vname = self::EvalMath($var->content[$p]->content, $vars);
+					$p++;
+				}
+				
+				if (is_array($out)) {
+					// Current variable is array
+					// Текущая переменная - массив
+					if (array_key_exists($vname, $out)) {
+						$out = $out[$vname];
+					}else{
+						$out = false;
+						break;
+					}
+				}elseif(is_object($out)){
+					// Current variable is class variable
+					// Текущая переменная - класс
+					$fields = get_object_vars($class);
+					if (array_key_exists($vname, $fields)) {
+						$out = $fields[$vname];
+					}else{
+						$out = false;
+						break;
+					}
+				}else{
+					$out = false;
+					break;
+				}
+				$p++;
+			}
+		}
+		return $out;
+	}
+	
+	/**
+	 * Set variable value<br>
+	 * Установка значения переменной
+	 * 
+	 * @param array $var Variable access token<br>Токены доступа к переменной
+	 * @param mixed $data New variable value<br>Новое значение переменной
+	 * @param array $vars Variables<br>Переменные
+	 */
+	static function SetVariable($var, $data, $vars) {
+		
 	}
 	
 	/**
@@ -250,7 +322,7 @@ class Evaluator {
 				if (is_string($v1) || is_string($v2)) {
 					return $v1 . $v2;
 				}else{
-					return $v1 + $v2;
+					return (int)$v1 + (int)$v2;
 				}
 				break;
 				
@@ -283,15 +355,9 @@ class Evaluator {
 				
 			case Token::T_LOWER_EQUAL:
 				return $v1 <= $v2;;
-				
-			default:
-				break;
 		}
 		
-		
-		
-		
-		return 0;
+		return false;
 	}
 	
 	
